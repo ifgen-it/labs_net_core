@@ -1,0 +1,14 @@
+﻿Package manager commands:
+
+Packages: was used
+
+Install-Package Microsoft.EntityFrameworkCore
+Install-Package Microsoft.EntityFrameworkCore.SQLServer
+Install-Package Microsoft.EntityFrameworkCore.SQLServer.Design
+Install-Package Microsoft.EntityFrameworkCore.Tools
+
+
+DB_FIRST: was not used
+
+Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=BandsDb;Trusted_connection=TRUE" Microsoft.EntityFrameworkCore.SQLServer -OutputDir Models
+
