@@ -1,0 +1,76 @@
+﻿@using Practice2.Domain.Entities
+
+@{
+    //Layout = null;
+    ViewData["Title"] = "Edit movie";
+
+    Movie movie = ViewBag.Movie;
+    List<Actor> actors = ViewBag.Actors;
+    List<Actor> newActors = ViewBag.NewActors;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+    <h4>Movie</h4>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            Name
+        </dt>
+        <dd class="col-sm-10">
+            @movie.Name
+        </dd>
+    </dl>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <input name="movieId" type="hidden" value="@movie.Id" />
+                <div class="form-group">
+                    <label class="control-label">New actor</label>
+                    <select name="actorId" class="form-control">
+                        @foreach (var actor in newActors)
+                        {
+                            <option value="@actor.Id">@actor.FirstName @actor.LastName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table">
+        <tbody>
+            @foreach (var actor in actors)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Details" asp-controller="Actor" asp-route-Id="@actor.Id" style="text-decoration:none">
+                            @actor.FirstName @actor.LastName
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="EditActorRemove" asp-route-movieId="@movie.Id" asp-route-actorId="@actor.Id">Remove</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+    <div>
+        <a asp-action="Details" asp-route-id="@movie.Id">@movie.Name</a> |
+        <a asp-action="Index">All movies</a>
+    </div>
+
+</body>
+</html>

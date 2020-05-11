@@ -1,0 +1,310 @@
+﻿@model IEnumerable<Practice2.Domain.Entities.Movie>
+
+@{
+    //Layout = null;
+    ViewData["Title"] = "All movies";
+
+    var currentPage = ViewBag.CurrentPage;
+    var pagesCount = ViewBag.PagesCount;
+    var prevPage = currentPage - 1;
+    var nextPage = currentPage + 1;
+
+    var searchText = ViewBag.SearchText;
+    var nameSort = ViewBag.NameSort;
+    var yearSort = ViewBag.YearSort;
+    var ratingSort = ViewBag.RatingSort;
+    var priceSort = ViewBag.PriceSort;
+    var genreSort = ViewBag.GenreSort;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+    @* search movie *@
+    <div class="col-md-12">
+        <form asp-action="Search">
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <input name="searchText" value="@searchText" class="form-control" />
+                        </div>
+                    </td>
+                    <td style="padding-left:10px">
+                        <div class="form-group">
+                            <input type="submit" value="Search" class="btn btn-outline-primary" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    @* movies *@
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @if (nameSort == null)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-nameSort="@true"
+                           asp-route-yearSort="@null"
+                           asp-route-ratingSort="@null"
+                           asp-route-priceSort="@null"
+                           asp-route-genreSort="@null">
+                            Name
+                        </a>
+                    }
+                    else if (nameSort == true)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-nameSort="@false">
+                            Name &#9650;
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-nameSort="@null">
+                            Name &#9660;
+                        </a>
+                    }
+                </th>
+                <th>
+                    @if (yearSort == null)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-yearSort="@true"
+                           asp-route-nameSort="@null"
+                           asp-route-ratingSort="@null"
+                           asp-route-priceSort="@null"
+                           asp-route-genreSort="@null">
+                            Year
+                        </a>
+                    }
+                    else if (yearSort == true)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-yearSort="@false">
+                            Year &#9650;
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-yearSort="@null">
+                            Year &#9660;
+                        </a>
+                    }
+                </th>
+                <th>
+                    @if (ratingSort == null)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-ratingSort="@true"
+                           asp-route-nameSort="@null"
+                           asp-route-yearSort="@null"
+                           asp-route-priceSort="@null"
+                           asp-route-genreSort="@null">
+                            Rating
+                        </a>
+                    }
+                    else if (ratingSort == true)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-ratingSort="@false">
+                            Rating &#9650;
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-ratingSort="@null">
+                            Rating &#9660;
+                        </a>
+                    }
+                </th>
+                <th>
+                    @if (priceSort == null)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-priceSort="@true"
+                           asp-route-nameSort="@null"
+                           asp-route-yearSort="@null"
+                           asp-route-ratingSort="@null"
+                           asp-route-genreSort="@null">
+                            Price
+                        </a>
+                    }
+                    else if (priceSort == true)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-priceSort="@false">
+                            Price &#9650;
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-priceSort="@null">
+                            Price &#9660;
+                        </a>
+                    }
+                </th>
+                <th>
+                    @if (genreSort == null)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-genreSort="@true"
+                           asp-route-nameSort="@null"
+                           asp-route-yearSort="@null"
+                           asp-route-ratingSort="@null"
+                           asp-route-priceSort="@null">
+                            Genre
+                        </a>
+                    }
+                    else if (genreSort == true)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-genreSort="@false">
+                            Genre &#9650;
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-genreSort="@null">
+                            Genre &#9660;
+                        </a>
+                    }
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Year)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @* previous page *@
+    @if (currentPage == 1)
+    {
+        <a class="btn btn-outline-primary" asp-action="Index"
+           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+           asp-route-nameSort="@nameSort" asp-route-yearSort="@yearSort"
+           asp-route-ratingSort="@ratingSort" asp-route-priceSort="@priceSort"
+           asp-route-genreSort="@genreSort">
+            Previous
+        </a>
+    }
+    else
+    {
+        <a class="btn btn-outline-primary" asp-action="Index"
+           asp-route-page="@prevPage" asp-route-searchText="@searchText"
+           asp-route-nameSort="@nameSort" asp-route-yearSort="@yearSort"
+           asp-route-ratingSort="@ratingSort" asp-route-priceSort="@priceSort"
+           asp-route-genreSort="@genreSort">
+            Previous
+        </a>
+    }
+
+    @* page with numbers *@
+    @for (int i = 1; i <= pagesCount; i++)
+    {
+        if (i == currentPage)
+        {
+            <a class="btn btn-primary" asp-action="Index"
+               asp-route-page="@i" asp-route-searchText="@searchText"
+               asp-route-nameSort="@nameSort" asp-route-yearSort="@yearSort"
+               asp-route-ratingSort="@ratingSort" asp-route-priceSort="@priceSort"
+               asp-route-genreSort="@genreSort">
+                @i
+            </a>
+        }
+        else
+        {
+            <a class="btn btn-outline-primary" asp-action="Index"
+               asp-route-page="@i" asp-route-searchText="@searchText"
+               asp-route-nameSort="@nameSort" asp-route-yearSort="@yearSort"
+               asp-route-ratingSort="@ratingSort" asp-route-priceSort="@priceSort"
+               asp-route-genreSort="@genreSort">
+                @i
+            </a>
+        }
+    }
+
+    @* next page *@
+    @if (currentPage == pagesCount)
+    {
+        <a class="btn btn-outline-primary" asp-action="Index"
+           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+           asp-route-nameSort="@nameSort" asp-route-yearSort="@yearSort"
+           asp-route-ratingSort="@ratingSort" asp-route-priceSort="@priceSort"
+           asp-route-genreSort="@genreSort">
+            Next
+        </a>
+    }
+    else
+    {
+        <a class="btn btn-outline-primary" asp-action="Index"
+           asp-route-page="@nextPage" asp-route-searchText="@searchText"
+           asp-route-nameSort="@nameSort" asp-route-yearSort="@yearSort"
+           asp-route-ratingSort="@ratingSort" asp-route-priceSort="@priceSort"
+           asp-route-genreSort="@genreSort">
+            Next
+        </a>
+    }
+
+</body>
+</html>

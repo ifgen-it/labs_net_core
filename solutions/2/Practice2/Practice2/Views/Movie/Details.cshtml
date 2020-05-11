@@ -1,0 +1,93 @@
+﻿@model Practice2.Domain.Entities.Movie
+@using System.IO
+
+@{
+    //Layout = null;
+    ViewData["Title"] = "Movie details";
+
+    var imagePath = $"/images/movies/{Model.Name}.jpg";
+    var imagePathStub = $"/images/movies/no_signal.jpg";
+    var curDir = Directory.GetCurrentDirectory();
+
+    if (!File.Exists(curDir + "/wwwroot" + imagePath))
+    {
+        imagePath = imagePathStub;
+    }
+
+    var movieActors = Model.MovieActors;
+    movieActors = movieActors.OrderBy(ma => ma.Actor.LastName).ToList();
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Movie</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Year)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Year)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Rating)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Rating)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Genre)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Genre.Name)
+            </dd>
+            <dt class="col-sm-2">
+                Actors
+            </dt>
+            <dd class="col-sm-10">
+
+                @foreach (var ma in movieActors)
+                {
+                    <a asp-action="Details" asp-controller="Actor" asp-route-id="@ma.Actor.Id">
+                        @ma.Actor.FirstName @ma.Actor.LastName
+                    </a>
+                }
+
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit movie</a> |
+        <a asp-action="EditActors" asp-route-id="@Model.Id">Edit actors</a> |
+        <a asp-action="Index">All movies</a>
+    </div>
+    <hr />
+    <div>
+        @{
+            if (imagePath != "")
+            {
+                <img src="@imagePath" width="100%" />
+            }
+        }
+    </div>
+</body>
+</html>

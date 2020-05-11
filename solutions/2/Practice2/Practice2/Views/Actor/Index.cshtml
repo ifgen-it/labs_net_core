@@ -1,0 +1,202 @@
+﻿@model IEnumerable<Practice2.Domain.Entities.Actor>
+
+@{
+    //Layout = null;
+    ViewData["Title"] = "All actors";
+
+    var currentPage = ViewBag.CurrentPage;
+    var pagesCount = ViewBag.PagesCount;
+    var prevPage = currentPage - 1;
+    var nextPage = currentPage + 1;
+
+    var searchText = ViewBag.SearchText;
+    var firstNameSort = ViewBag.FirstNameSort;
+    var lastNameSort = ViewBag.LastNameSort;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        /*table tbody tr td a {*/
+        .all-clickable a {
+            /*display: block;
+            width: 100%;
+            height: 100%;*/
+            /*text-decoration:none;*/
+        }
+
+        .all-clickable:hover {
+        }
+    </style>
+</head>
+<body>
+    @* search actor *@
+    <div class="col-md-12">
+        <form asp-action="Search">
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <input name="searchText" value="@searchText" class="form-control" />
+                        </div>
+                    </td>
+                    <td style="padding-left:10px">
+                        <div class="form-group">
+                            <input type="submit" value="Search" class="btn btn-outline-primary" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    @* actors *@
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @if (firstNameSort == null)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-firstNameSort="@true"
+                           asp-route-lastNameSort="@null">
+                            First name
+                        </a>
+                    }
+                    else if (firstNameSort == true)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-firstNameSort="@false">
+                            First name &#9650;
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-firstNameSort="@null">
+                            First name &#9660;
+                        </a>
+                    }
+                </th>
+                <th>
+                    @if (lastNameSort == null)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-lastNameSort="@true"
+                           asp-route-firstNameSort="@null">
+                            Last name
+                        </a>
+                    }
+                    else if (lastNameSort == true)
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-lastNameSort="@false">
+                            Last name &#9650;
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="alert-heading" asp-action="Index"
+                           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+                           asp-route-lastNameSort="@null">
+                            Last name &#9660;
+                        </a>
+                    }
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="all-clickable">
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </a>
+                    </td>
+                    <td class="all-clickable">
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @* previous page *@
+    @if (currentPage == 1)
+    {
+        <a class="btn btn-outline-primary" asp-action="Index"
+           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+           asp-route-firstNameSort="@firstNameSort" asp-route-lastNameSort="@lastNameSort">
+            Previous
+        </a>
+    }
+    else
+    {
+        <a class="btn btn-outline-primary" asp-action="Index"
+           asp-route-page="@prevPage" asp-route-searchText="@searchText"
+           asp-route-firstNameSort="@firstNameSort" asp-route-lastNameSort="@lastNameSort">
+            Previous
+        </a>
+    }
+
+    @* page with numbers *@
+    @for (int i = 1; i <= pagesCount; i++)
+    {
+        if (i == currentPage)
+        {
+            <a class="btn btn-primary" asp-action="Index"
+               asp-route-page="@i" asp-route-searchText="@searchText"
+               asp-route-firstNameSort="@firstNameSort" asp-route-lastNameSort="@lastNameSort">
+                @i
+            </a>
+        }
+        else
+        {
+            <a class="btn btn-outline-primary" asp-action="Index"
+               asp-route-page="@i" asp-route-searchText="@searchText"
+               asp-route-firstNameSort="@firstNameSort" asp-route-lastNameSort="@lastNameSort">
+                @i
+            </a>
+        }
+    }
+
+    @* next page *@
+    @if (currentPage == pagesCount)
+    {
+        <a class="btn btn-outline-primary" asp-action="Index"
+           asp-route-page="@currentPage" asp-route-searchText="@searchText"
+           asp-route-firstNameSort="@firstNameSort" asp-route-lastNameSort="@lastNameSort">
+            Next
+        </a>
+    }
+    else
+    {
+        <a class="btn btn-outline-primary" asp-action="Index"
+           asp-route-page="@nextPage" asp-route-searchText="@searchText"
+           asp-route-firstNameSort="@firstNameSort" asp-route-lastNameSort="@lastNameSort">
+            Next
+        </a>
+    }
+
+</body>
+</html>

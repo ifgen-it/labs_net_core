@@ -1,0 +1,103 @@
+﻿@using Practice2.Domain.Entities
+@{
+    //Layout = null;
+    ViewData["Title"] = "Statistics";
+
+    Movie topMovie = ViewBag.TopMovie;
+    Actor topActor = ViewBag.TopActor;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Statistics</title>
+</head>
+<body>
+
+    <div>
+        <h4>Statistics</h4>
+        <br />
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Key
+                </th>
+                <th>
+                    Value
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    Movies count
+                </td>
+                <td>
+                    @ViewBag.MoviesCount
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Actors count
+                </td>
+                <td>
+                    @ViewBag.ActorsCount
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Average actors in movie
+                </td>
+                <td>
+                    @ViewBag.AvgActors
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Top movie
+                </td>
+                <td>
+                    @if (topMovie == null)
+                    {
+                        @:none
+                    }
+                    else
+                    {
+                        <a asp-controller="Movie" asp-action="Details" asp-route-id="@topMovie.Id">
+                            @topMovie.Name
+                        </a>
+                        @:, rating =
+                        @topMovie.Rating
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Top actor
+                </td>
+                <td>
+                    @if (topActor == null)
+                    {
+                        @:none
+                    }
+                    else
+                    {
+                        <a asp-controller="Actor" asp-action="Details" asp-route-id="@topActor.Id">
+                            @topActor.FirstName @topActor.LastName
+                        </a>
+                        @:,
+                        @topActor.MovieActors.Count
+                        @: movies
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
