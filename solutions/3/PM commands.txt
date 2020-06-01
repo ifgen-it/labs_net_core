@@ -1,0 +1,31 @@
+﻿Packages:
+
+Install-Package Microsoft.EntityFrameworkCore
+Install-Package Microsoft.EntityFrameworkCore.SQLServer
+Install-Package Microsoft.EntityFrameworkCore.SQLServer.Design
+Install-Package Microsoft.EntityFrameworkCore.Tools
+
+optionsBuilder.UseSqlServer(
+                    @"Server=(localdb)\MSSQLLocalDB;Database=BandsDb;Trusted_connection=TRUE"
+                    );
+
+
+DB_FIRST: доступно при подключенных пакетах Design, Tools
+
+Help Scaffold-DbContext
+
+Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=BandsDb;Trusted_connection=TRUE" -Provider Microsoft.EntityFrameworkCore.SQLServer -OutputDir Models
+
+
+for ASP.Net Core - update GUI in runtime:
+Install-Package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+Install-Package Microsoft.VisualStudio.Web.BrowserLink
+
+for mapping object from JSON to Object:
+Install-Package Microsoft.AspNet.WebApi.Client
+
+for noncycle json serializing
+Install-Package Microsoft.AspNetCore.Mvc.NewtonsoftJson
+
+for routing in server:
+Install-Package Microsoft.AspNet.WebApi.WebHost
